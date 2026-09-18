@@ -1,0 +1,106 @@
+---
+import { getPath, useTranslations, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).home.latestNews;
+
+// Placeholder articles until the news system exists.
+const articles = t.placeholders;
+---
+
+<section class="section section--surface">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="eyebrow">{t.eyebrow}</span>
+        <h2>{t.heading}</h2>
+      </div>
+      <a class="link-arrow" href={getPath(lang, 'news')}>{t.cta}</a>
+    </div>
+    <ul class="grid">
+      {
+        articles.map((article) => (
+          <li>
+            <article>
+              <div class="image">
+                <span>{t.imagePlaceholder}</span>
+              </div>
+              <p class="meta">
+                <span class="category">{article.category}</span>
+                <span aria-hidden="true">·</span>
+                <span>{t.dateTbd}</span>
+              </p>
+              <h3>{article.title}</h3>
+              <p class="excerpt">{article.excerpt}</p>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 2.25rem clamp(1.5rem, 3vw, 2.5rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .image {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 1rem;
+    background: var(--color-surface-strong);
+    border-radius: 0.25rem;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+
+  .meta {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  .category {
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent-ink);
+  }
+
+  h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  @media (min-width: 48rem) {
+    .image {
+      aspect-ratio: 3 / 2;
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .excerpt {
+    color: var(--color-muted);
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+interface Props {
+  eyebrow: string;
+  heading: string;
+  text: string;
+  linkLabel: string;
+  href: string;
+  /** `split`: heading and text side by side (full width). `panel`: block for a two-column grid. */
+  variant?: 'split' | 'panel';
+}
+
+const { eyebrow, heading, text, linkLabel, href, variant = 'split' } = Astro.props;
+---
+
+<div class:list={['teaser', variant]}>
+  <div>
+    <span class="eyebrow">{eyebrow}</span>
+    <h2>{heading}</h2>
+  </div>
+  <div class="body">
+    <p class="lead">{text}</p>
+    <a class="link-arrow" href={href}>{linkLabel}</a>
+  </div>
+</div>
+
+<style>
+  .teaser {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .lead {
+    margin-bottom: 1.25rem;
+  }
+
+  @media (min-width: 60rem) {
+    .split {
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: end;
+    }
+  }
+
+  .panel {
+    align-content: start;
+    gap: 1rem;
+    height: 100%;
+    padding: 1.75rem 1.5rem 2rem;
+    background: var(--color-surface);
+    border-top: 0.375rem solid var(--color-accent);
+  }
+
+  .panel h2 {
+    font-size: 1.875rem;
+  }
+
+  .panel .lead {
+    font-size: 1.0625rem;
+  }
+
+  @media (min-width: 48rem) {
+    .panel {
+      gap: 1.5rem;
+      padding: clamp(2rem, 4vw, 3.5rem);
+      border-top-width: 0.5rem;
+    }
+
+    .panel h2 {
+      font-size: var(--text-h2);
+    }
+
+    .panel .lead {
+      font-size: var(--text-lead);
+    }
+  }
+</style>

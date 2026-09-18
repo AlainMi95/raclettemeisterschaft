@@ -1,0 +1,36 @@
+---
+// Placeholder pages (News, About, Rules, Past Winners) in every language.
+// When a page gets real content, give it its own file and remove it from `pageRoutes`.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { langs, pageRoutes, routes, useTranslations } from '../../i18n';
+
+export function getStaticPaths() {
+  return langs.flatMap((lang) =>
+    pageRoutes.map((route) => ({
+      params: { lang, page: routes[route][lang] },
+      props: { lang, route },
+    })),
+  );
+}
+
+const { lang, route } = Astro.props;
+const dict = useTranslations(lang);
+const t = dict.pages[route];
+---
+
+<BaseLayout lang={lang} route={route} title={t.title}>
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">{dict.site.name}</span>
+      <h1>{t.title}</h1>
+      <p class="lead">{t.intro}</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-bottom: 1.5rem;
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+  }
+</style>
