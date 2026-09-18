@@ -1,66 +1,50 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Hero from '../../components/home/Hero.astro';
-import NextEvent from '../../components/home/NextEvent.astro';
-import LatestNews from '../../components/home/LatestNews.astro';
-import Teaser from '../../components/home/Teaser.astro';
-import { getPath, langs, useTranslations } from '../../i18n';
+import { langs, useTranslations } from '../../i18n';
 
 export function getStaticPaths() {
   return langs.map((lang) => ({ params: { lang }, props: { lang } }));
 }
 
 const { lang } = Astro.props;
-const t = useTranslations(lang).home;
+const t = useTranslations(lang);
 ---
 
 <BaseLayout lang={lang} route="home">
-  <Hero lang={lang} />
-  <NextEvent lang={lang} />
-  <section class="section">
-    <div class="container">
-      <Teaser
-        eyebrow={t.about.eyebrow}
-        heading={t.about.heading}
-        text={t.about.text}
-        linkLabel={t.about.cta}
-        href={getPath(lang, 'about')}
-      />
-    </div>
-  </section>
-  <LatestNews lang={lang} />
-  <section class="section">
-    <div class="container panels">
-      <Teaser
-        variant="panel"
-        eyebrow={t.rules.eyebrow}
-        heading={t.rules.heading}
-        text={t.rules.text}
-        linkLabel={t.rules.cta}
-        href={getPath(lang, 'rules')}
-      />
-      <Teaser
-        variant="panel"
-        eyebrow={t.pastWinners.eyebrow}
-        heading={t.pastWinners.heading}
-        text={t.pastWinners.text}
-        linkLabel={t.pastWinners.cta}
-        href={getPath(lang, 'pastWinners')}
-      />
-    </div>
-  </section>
+  <h1 class="visually-hidden">{t.site.name}</h1>
+  <div class="flyer">
+    <img
+      src="/images/flyer.jpg"
+      alt={t.home.flyerAlt}
+      width="904"
+      height="1280"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
 </BaseLayout>
 
 <style>
-  .panels {
-    display: grid;
-    gap: 1rem;
+  .flyer {
+    padding: 0.25rem 0.75rem 1rem;
   }
 
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  /* Desktop: fit the whole poster into the viewport, never upscale past its native width */
   @media (min-width: 48rem) {
-    .panels {
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+    .flyer {
+      padding: clamp(1rem, 4vh, 3rem) var(--gutter) clamp(3rem, 8vh, 6rem);
+    }
+
+    img {
+      width: clamp(24rem, calc((100svh - 10rem) * 904 / 1280), 56.5rem);
+      max-width: 100%;
     }
   }
 </style>
