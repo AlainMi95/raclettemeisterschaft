@@ -13,14 +13,27 @@ const t = useTranslations(lang);
 <BaseLayout lang={lang} route="home">
   <h1 class="visually-hidden">{t.site.name}</h1>
   <div class="flyer">
+    <!-- The flyer matching the page's random color scheme (set in BaseLayout) -->
     <img
-      src="/images/flyer.jpg"
+      id="flyer"
       alt={t.home.flyerAlt}
-      width="904"
-      height="1280"
+      width="1132"
+      height="1600"
       fetchpriority="high"
       decoding="async"
     />
+    <script is:inline>
+      document.getElementById('flyer').src =
+        `/images/flyer-${document.documentElement.dataset.flyer || 'orange'}.jpg`;
+    </script>
+    <noscript>
+      <img
+        src="/images/flyer-orange.jpg"
+        alt={t.home.flyerAlt}
+        width="1132"
+        height="1600"
+      />
+    </noscript>
   </div>
 </BaseLayout>
 
@@ -36,6 +49,11 @@ const t = useTranslations(lang);
     margin: 0 auto;
   }
 
+  /* Without JavaScript the empty scripted <img> stays hidden; the <noscript> one shows instead */
+  img:not([src]) {
+    display: none;
+  }
+
   /* Desktop: fit the whole poster into the viewport, never upscale past its native width */
   @media (min-width: 48rem) {
     .flyer {
@@ -43,7 +61,7 @@ const t = useTranslations(lang);
     }
 
     img {
-      width: clamp(24rem, calc((100svh - 10rem) * 904 / 1280), 56.5rem);
+      width: clamp(24rem, calc((100svh - 10rem) * 1132 / 1600), 70.75rem);
       max-width: 100%;
     }
   }

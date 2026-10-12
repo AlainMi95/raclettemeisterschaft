@@ -1,0 +1,118 @@
+---
+import { useTranslations, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { jumpTo, events } = useTranslations(lang).pastEvents;
+---
+
+<nav class="years" aria-label={jumpTo}>
+  <span>{jumpTo}:</span>
+  {events.map((event) => <a href={`#${event.year}`}>{event.year}</a>)}
+</nav>
+
+{
+  events.map((event) => (
+    <article class="event" id={event.year}>
+      <span class="year">{event.year}</span>
+      <h2>{event.title}</h2>
+
+      <dl class="facts">
+        {event.facts.map((fact) => (
+          <div>
+            <dt>{fact.label}</dt>
+            <dd>{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <div class="prose">
+        {event.body.map((block) =>
+          Array.isArray(block) ? (
+            <ul>
+              {block.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>{block}</p>
+          ),
+        )}
+      </div>
+    </article>
+  ))
+}
+
+<style>
+  .years {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    font-weight: 700;
+  }
+
+  .years a {
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+
+  .event {
+    margin-top: clamp(3rem, 7vw, 5rem);
+    scroll-margin-top: 1.5rem;
+  }
+
+  .year {
+    display: block;
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 700;
+    line-height: 0.9;
+  }
+
+  h2 {
+    max-width: 30ch;
+    margin: 0.75rem 0 1.5rem;
+    font-size: clamp(1.5rem, 3.5vw, 2.125rem);
+  }
+
+  /* Datum / Ort / Bestleistung */
+  .facts {
+    display: grid;
+    gap: 0.75rem 1.5rem;
+    max-width: 62ch;
+    margin: 0 0 2rem;
+    padding: 0.75rem 0;
+    border-top: 2px solid var(--color-text);
+    border-bottom: 2px solid var(--color-text);
+  }
+
+  .facts dt {
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .facts dd {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .prose > * + * {
+    margin-top: 1em;
+  }
+
+  .prose ul {
+    max-width: 62ch;
+    padding-left: 1.5rem;
+    font-weight: 700;
+  }
+
+  @media (min-width: 40rem) {
+    .facts {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

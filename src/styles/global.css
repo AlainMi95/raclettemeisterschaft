@@ -5,10 +5,9 @@
 }
 
 :root {
-  /* Colors, taken from the event flyer */
-  --color-bg: #d26f2e; /* burnt orange: the flyer's background */
-  --color-green: #42591c; /* flyer line-art green (averaged from the artwork) */
-  --color-text: var(--color-green);
+  /* Colors measured from the flyers (most common background and line color); orange is the default */
+  --color-bg: #d26f2e;
+  --color-text: #38612f;
   --color-light: #f6ecdc; /* light neutral, only where needed (focus ring) */
 
   /* Layout */
@@ -16,9 +15,29 @@
   --gutter: clamp(1rem, 4vw, 2.5rem);
   --section-space: clamp(3rem, 8vw, 6.5rem);
 
-  /* Type */
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --text-lead: clamp(1.125rem, 1.6vw, 1.3125rem);
+  /* Type: Mali, a rounded handwriting font close to the flyer's lettering (self-hosted, see BaseLayout) */
+  --font-hand: 'Mali', 'Comic Sans MS', system-ui, sans-serif;
+  --text-lead: clamp(1.1875rem, 1.7vw, 1.375rem);
+}
+
+/*
+ * Color schemes of the four flyer versions; BaseLayout picks one at random on every page load.
+ * Orange (above) is the default, e.g. when JavaScript is off.
+ */
+:root[data-flyer='yellow'] {
+  --color-bg: #e7b629;
+  --color-text: #2a5a93;
+}
+
+:root[data-flyer='green'] {
+  --color-bg: #6bbb96;
+  --color-text: #792a61;
+}
+
+/* Only used on the home page (see BaseLayout) */
+:root[data-flyer='pink'] {
+  --color-bg: #d92c6e;
+  --color-text: #459c45;
 }
 
 html {
@@ -30,7 +49,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: var(--font-sans);
+  font-family: var(--font-hand);
   font-size: 1.0625rem;
   line-height: 1.6;
   color: var(--color-text);
@@ -54,10 +73,11 @@ h1,
 h2,
 h3 {
   margin: 0;
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.025em;
+  font-weight: 700;
+  line-height: 1.1;
   text-wrap: balance;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 p {
@@ -80,9 +100,9 @@ p {
 .eyebrow {
   display: block;
   margin-bottom: 0.75rem;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 

@@ -15,16 +15,30 @@ export const defaultLang: Lang = 'de';
 export const routes = {
   home: { de: '', en: '' },
   news: { de: 'news', en: 'news' },
-  about: { de: 'ueber-uns', en: 'about' },
+  livestream: { de: 'live-stream', en: 'live-stream' },
+  registration: { de: 'anmeldung', en: 'registration' },
   rules: { de: 'regeln', en: 'rules' },
-  pastWinners: { de: 'bisherige-sieger', en: 'past-winners' },
+  pastEvents: { de: 'vergangene-anlaesse', en: 'past-events' },
+  sponsors: { de: 'sponsoren', en: 'sponsors' },
+  about: { de: 'ueber-uns', en: 'about' },
+  faq: { de: 'faq', en: 'faq' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type RouteKey = keyof typeof routes;
 export type PageRouteKey = Exclude<RouteKey, 'home'>;
 
 /** Order of the main navigation. */
-export const navRoutes: RouteKey[] = ['home', 'news', 'about', 'rules', 'pastWinners'];
+export const navRoutes: RouteKey[] = [
+  'home',
+  'news',
+  'livestream',
+  'registration',
+  'rules',
+  'pastEvents',
+  'sponsors',
+  'about',
+  'faq',
+];
 
 export const pageRoutes = (Object.keys(routes) as RouteKey[]).filter(
   (route): route is PageRouteKey => route !== 'home',
@@ -35,3 +49,12 @@ export function getPath(lang: Lang, route: RouteKey = 'home'): string {
   const slug = routes[route][lang];
   return slug ? `/${lang}/${slug}/` : `/${lang}/`;
 }
+
+/** Where registrations (and questions) are sent. */
+export const contactEmail = 'schmelzmeister@mail.ch';
+
+/** Link to the registration form (file in /public/downloads). Empty: the page shows a "coming soon" note. */
+export const registrationFormUrl = '/downloads/anmeldeformular.pdf';
+
+/** The four flyer versions (public/images/flyer-<color>.jpg); one is picked at random per page load. */
+export const flyerColors = ['orange', 'yellow', 'green', 'pink'];

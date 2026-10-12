@@ -1,0 +1,246 @@
+---
+import { contactEmail, getPath, registrationFormUrl, useTranslations, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).registration;
+const [noticeBefore, noticeAfter] = t.notice.text.split('{email}');
+---
+
+<p class="headline">{t.headline}</p>
+<p class="lead">{t.tagline}</p>
+
+<dl class="facts">
+  {
+    t.facts.map((fact) => (
+      <div>
+        <dt>{fact.label}</dt>
+        <dd>{fact.value}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<div class="notice">
+  <p>
+    <strong>{t.notice.title}</strong>
+    {noticeBefore}<a href={`mailto:${contactEmail}`}>{contactEmail}</a>{noticeAfter}
+  </p>
+</div>
+
+{
+  registrationFormUrl ? (
+    <a class="button" href={registrationFormUrl} download>
+      {t.formLink}
+    </a>
+  ) : (
+    <p class="button is-pending">{t.formPending}</p>
+  )
+}
+
+<section class="block">
+  <h2>{t.steps.title}</h2>
+  <p class="intro">{t.steps.intro}</p>
+  <dl class="steps">
+    {
+      t.steps.items.map((step) => (
+        <div>
+          <dt>{step.term}</dt>
+          <dd>
+            {step.text}
+            {step.rulesLink && (
+              <>
+                {' '}
+                <a href={getPath(lang, 'rules')}>{step.rulesLink}</a>
+              </>
+            )}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>
+
+<section class="block offer">
+  <div>
+    <h2>{t.included.title}</h2>
+    <p class="intro">{t.included.intro}</p>
+    <ul class="checklist">
+      {t.included.items.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+  <div>
+    <h2>{t.extras.title}</h2>
+    <p class="intro">{t.extras.intro}</p>
+    <ul class="checklist is-extra">
+      {t.extras.items.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+</section>
+
+<p class="closing">{t.closing}</p>
+
+<style>
+  .headline {
+    font-size: clamp(1.5rem, 3.5vw, 2.125rem);
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  .lead {
+    margin-top: 0.5rem;
+  }
+
+  /* Wann / Wo / Startgeld */
+  .facts {
+    display: grid;
+    gap: 1rem;
+    max-width: 62ch;
+    margin: 2rem 0;
+  }
+
+  .facts div {
+    padding-top: 0.5rem;
+    border-top: 2px solid var(--color-text);
+  }
+
+  .facts dt {
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .facts dd {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .notice {
+    max-width: 62ch;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--color-text);
+  }
+
+  .notice strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 1.125rem;
+  }
+
+  .notice a {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .button {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.875rem 1.5rem;
+    font-weight: 700;
+    color: var(--color-bg);
+    background: var(--color-text);
+    text-decoration: none;
+  }
+
+  a.button:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .button.is-pending {
+    color: var(--color-text);
+    background: none;
+    border: 2px dashed var(--color-text);
+  }
+
+  .block {
+    margin-top: clamp(3rem, 7vw, 5rem);
+  }
+
+  h2 {
+    margin-bottom: 0.75rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  }
+
+  .intro {
+    margin-bottom: 1.5rem;
+  }
+
+  .steps {
+    max-width: 62ch;
+    margin: 0;
+    border-bottom: 2px solid var(--color-text);
+  }
+
+  .steps div {
+    padding: 1rem 0;
+    border-top: 2px solid var(--color-text);
+  }
+
+  .steps dt {
+    margin-bottom: 0.25rem;
+    font-size: 1.1875rem;
+    font-weight: 700;
+  }
+
+  .steps dd {
+    margin: 0;
+  }
+
+  .steps a {
+    font-weight: 700;
+  }
+
+  /* Included / extras side by side on wide screens */
+  .offer {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .checklist {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .checklist li {
+    position: relative;
+    padding: 0.375rem 0 0.375rem 1.75rem;
+  }
+
+  .checklist li::before {
+    content: '✔';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+  }
+
+  .checklist.is-extra li::before {
+    content: '+';
+    font-size: 1.25rem;
+    line-height: 1.35;
+  }
+
+  .closing {
+    margin-top: clamp(3rem, 7vw, 5rem);
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  @media (min-width: 48rem) {
+    .facts {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .offer {
+      grid-template-columns: 1fr 1fr;
+      max-width: 62rem;
+    }
+  }
+</style>

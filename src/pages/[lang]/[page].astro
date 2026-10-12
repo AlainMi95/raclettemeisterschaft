@@ -1,8 +1,14 @@
 ---
-// Placeholder pages (News, About, Rules, Past Winners) in every language.
-// When a page gets real content, give it its own file and remove it from `pageRoutes`.
+// All content pages (News, Live Stream, Registration, Rules, Past Events, Sponsors, About, FAQ) in every language.
+// Pages with real content render their component from `contentByRoute`; the rest show a placeholder intro.
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { langs, pageRoutes, routes, useTranslations } from '../../i18n';
+import AboutContent from '../../components/AboutContent.astro';
+import FaqContent from '../../components/FaqContent.astro';
+import NewsContent from '../../components/NewsContent.astro';
+import PastEventsContent from '../../components/PastEventsContent.astro';
+import RegistrationContent from '../../components/RegistrationContent.astro';
+import RulesContent from '../../components/RulesContent.astro';
+import { langs, pageRoutes, routes, useTranslations, type PageRouteKey } from '../../i18n';
 
 export function getStaticPaths() {
   return langs.flatMap((lang) =>
@@ -13,17 +19,27 @@ export function getStaticPaths() {
   );
 }
 
+const contentByRoute: Partial<Record<PageRouteKey, typeof AboutContent>> = {
+  news: NewsContent,
+  registration: RegistrationContent,
+  rules: RulesContent,
+  pastEvents: PastEventsContent,
+  about: AboutContent,
+  faq: FaqContent,
+};
+
 const { lang, route } = Astro.props;
 const dict = useTranslations(lang);
 const t = dict.pages[route];
+const Content = contentByRoute[route];
 ---
 
-<BaseLayout lang={lang} route={route} title={t.title}>
+<BaseLayout lang={lang} route={route} title={t.title} description={t.intro}>
   <section class="section">
     <div class="container">
       <span class="eyebrow">{dict.site.name}</span>
       <h1>{t.title}</h1>
-      <p class="lead">{t.intro}</p>
+      {Content ? <Content lang={lang} /> : <p class="lead">{t.intro}</p>}
     </div>
   </section>
 </BaseLayout>

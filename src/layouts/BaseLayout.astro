@@ -1,7 +1,10 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { useTranslations, type Lang, type RouteKey } from '../i18n';
+import { flyerColors, useTranslations, type Lang, type RouteKey } from '../i18n';
+import '@fontsource/mali/latin-300.css';
+import '@fontsource/mali/latin-400.css';
+import '@fontsource/mali/latin-700.css';
 import '../styles/global.css';
 
 interface Props {
@@ -26,6 +29,25 @@ const pageTitle = title ? `${title} | ${t.site.name}` : t.site.name;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
+    <!--
+      Random flyer color scheme per page load (never the same twice in a row).
+      Pink only on the home page: its green text is too hard to read in longer texts.
+      Runs before the page is drawn, so there is no flash of the default orange.
+    -->
+    <script is:inline define:vars={{ flyerColors, isHome: route === 'home' }}>
+      let last = null;
+      try {
+        last = sessionStorage.getItem('flyer');
+      } catch {}
+      const options = flyerColors.filter(
+        (color) => color !== last && (isHome || color !== 'pink'),
+      );
+      const flyer = options[Math.floor(Math.random() * options.length)];
+      document.documentElement.dataset.flyer = flyer;
+      try {
+        sessionStorage.setItem('flyer', flyer);
+      } catch {}
+    </script>
   </head>
   <body>
     <Header lang={lang} route={route} />
