@@ -253,6 +253,10 @@ const de = {
       },
     ] as NewsItem[],
   },
+  livestream: {
+    text: 'Die Meisterschaft wird live auf Twitch übertragen. Hier könnt ihr den Stream schauen und mitfiebern:',
+    link: 'Zum Stream auf Twitch',
+  },
   pastEvents: {
     jumpTo: 'Springe zu',
     /** Newest first. */

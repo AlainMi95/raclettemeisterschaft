@@ -215,6 +215,10 @@ const en: Dictionary = {
       },
     ],
   },
+  livestream: {
+    text: 'The championship is streamed live on Twitch. Watch the stream and cheer along here:',
+    link: 'Watch the stream on Twitch',
+  },
   pastEvents: {
     jumpTo: 'Jump to',
     events: [

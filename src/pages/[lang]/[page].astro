@@ -4,6 +4,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AboutContent from '../../components/AboutContent.astro';
 import FaqContent from '../../components/FaqContent.astro';
+import LivestreamContent from '../../components/LivestreamContent.astro';
 import NewsContent from '../../components/NewsContent.astro';
 import PastEventsContent from '../../components/PastEventsContent.astro';
 import RegistrationContent from '../../components/RegistrationContent.astro';
@@ -21,6 +22,7 @@ export function getStaticPaths() {
 
 const contentByRoute: Partial<Record<PageRouteKey, typeof AboutContent>> = {
   news: NewsContent,
+  livestream: LivestreamContent,
   registration: RegistrationContent,
   rules: RulesContent,
   pastEvents: PastEventsContent,

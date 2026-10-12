@@ -53,6 +53,9 @@ export function getPath(lang: Lang, route: RouteKey = 'home'): string {
 /** Where registrations (and questions) are sent. */
 export const contactEmail = 'schmelzmeister@mail.ch';
 
+/** Twitch channel where the championship is streamed live. */
+export const twitchUrl = 'https://m.twitch.tv/raclettemeisterschaft/home';
+
 /** Link to the registration form (file in /public/downloads). Empty: the page shows a "coming soon" note. */
 export const registrationFormUrl = '/downloads/anmeldeformular.pdf';
 
