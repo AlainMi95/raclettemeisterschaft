@@ -29,21 +29,25 @@ const pageTitle = title ? `${title} | ${t.site.name}` : t.site.name;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
+    <!-- Browser bar tint (Safari, Chrome on Android); updated by the script below -->
+    <meta name="theme-color" content={flyerColors.orange} />
     <!--
       Random flyer color scheme per page load (never the same twice in a row).
       Pink only on the home page: its green text is too hard to read in longer texts.
       Runs before the page is drawn, so there is no flash of the default orange.
+      Also sets theme-color, otherwise Safari keeps tinting its bar in the previous page's color.
     -->
     <script is:inline define:vars={{ flyerColors, isHome: route === 'home' }}>
       let last = null;
       try {
         last = sessionStorage.getItem('flyer');
       } catch {}
-      const options = flyerColors.filter(
+      const options = Object.keys(flyerColors).filter(
         (color) => color !== last && (isHome || color !== 'pink'),
       );
       const flyer = options[Math.floor(Math.random() * options.length)];
       document.documentElement.dataset.flyer = flyer;
+      document.querySelector('meta[name="theme-color"]').content = flyerColors[flyer];
       try {
         sessionStorage.setItem('flyer', flyer);
       } catch {}

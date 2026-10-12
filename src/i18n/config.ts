@@ -56,5 +56,13 @@ export const contactEmail = 'schmelzmeister@mail.ch';
 /** Link to the registration form (file in /public/downloads). Empty: the page shows a "coming soon" note. */
 export const registrationFormUrl = '/downloads/anmeldeformular.pdf';
 
-/** The four flyer versions (public/images/flyer-<color>.jpg); one is picked at random per page load. */
-export const flyerColors = ['orange', 'yellow', 'green', 'pink'];
+/**
+ * The four flyer versions (public/images/flyer-<color>.jpg) with their background color;
+ * one is picked at random per page load. Keep the colors in sync with styles/global.css.
+ */
+export const flyerColors = {
+  orange: '#d26f2e',
+  yellow: '#e7b629',
+  green: '#6bbb96',
+  pink: '#d92c6e',
+};
