@@ -60,7 +60,7 @@ const de = {
   },
   home: {
     flyerAlt:
-      'Flyer: 3. Mittelländer Raclette-Meisterschaft. «Wär schuflet am meistä?» So 3. Jan. 27, Start 17 Uhr, Rämistrasse 24, 8001 Zürich. «Mäld dis Team ah uf: raclettemeisterschaft.ch»',
+      'Flyer: 3. Mittelländer Raclette-Meisterschaft. «Wär schuflet am meistä?» So 3. Jan. 27, Start 17 Uhr, Zentralstrasse 34, 8003 Zürich. «Mäld dis Team ah uf: raclettemeisterschaft.ch»',
   },
   about: {
     story: {
